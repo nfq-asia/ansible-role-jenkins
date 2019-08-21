@@ -4,6 +4,7 @@
     update_cache: true
     name:
       - curl
+      - apt-utils
       - apt-transport-https
       - gnupg
       - openjdk-8-jdk-headless
@@ -35,7 +36,6 @@
     state: present
     update_cache: true
   when: jenkins_repo_url | length > 0
-  tags: ['skip_ansible_lint']
 
 - name: Download specific Jenkins version.
   get_url:
