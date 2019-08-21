@@ -1,0 +1,9 @@
+---
+- include: install.yml
+  tags: ["install"]
+
+- include: plugins.yml
+  tags: ["manage-plugins"]
+
+- include: config.yml
+  tags: ["configure"]

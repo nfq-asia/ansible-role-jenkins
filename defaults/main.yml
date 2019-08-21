@@ -1,0 +1,76 @@
+---
+jenkins_package_state: present
+__jenkins_repo_url: deb https://pkg.jenkins.io/debian binary/
+__jenkins_repo_key_url: https://pkg.jenkins.io/debian/jenkins.io.key
+__jenkins_pkg_url: https://pkg.jenkins.io/debian/binary
+
+jenkins_connection_delay: 5
+jenkins_connection_retries: 60
+jenkins_home: /var/lib/jenkins
+jenkins_hostname: localhost
+jenkins_http_port: 8080
+jenkins_jar_location: /opt/jenkins-cli.jar
+jenkins_url_prefix: ""
+jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
+jenkins_default_plugins:
+  - ansible
+  - aws-java-sdk
+  - ansicolor
+  - authentication-tokens
+  - build-pipeline-plugin
+  - credentials
+  - plain-credentials
+  - docker-workflow
+  - git-client
+  - git
+  - github-api
+  - github
+  - github-branch-source
+  - kubernetes
+  - workflow-aggregator
+  - slack
+  - ssh-agent
+  - timestamper
+  - icon-shim
+  - matrix-auth
+  - dashboard-view
+  - view-job-filters
+  - sectioned-view
+  - job-dsl
+  - workflow-job
+jenkins_plugins: []
+
+jenkins_plugins_state: present
+jenkins_plugin_updates_expiration: 86400
+jenkins_plugin_timeout: 600
+jenkins_plugins_install_dependencies: true
+jenkins_plugins_update_url: https://updates.jenkins.io
+jenkins_plugins_update_verify_certs: false
+
+jenkins_admin_username: robin
+jenkins_admin_password: this_is_a_very_long_but_insecured_password
+jenkins_admin_password_file: "/root/initialAdminPassword"
+jenkins_admin_email: ''
+
+jenkins_process_user: jenkins
+jenkins_process_group: "{{ jenkins_process_user }}"
+
+jenkins_init_changes:
+  - option: "JENKINS_ARGS"
+    value: "--prefix={{ jenkins_url_prefix }}"
+  - option: "{{ jenkins_java_options_env_var }}"
+    value: "{{ jenkins_java_options }}"
+
+jenkins_static_configs: []
+
+jenkins_init_file: /etc/default/jenkins
+jenkins_http_port_param: HTTP_PORT
+jenkins_java_options_env_var: JAVA_ARGS
+jenkins_url: ""
+
+number_of_executors: 2
+node_mode: 'NORMAL'
+node_labels: ''
+
+jenkins_ssh_passphrase: ''
+jenkins_config: {}

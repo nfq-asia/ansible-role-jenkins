@@ -1,0 +1,36 @@
+---
+- name: Create update directory
+  file:
+    path: "{{ jenkins_home }}/updates"
+    state: directory
+    owner: jenkins
+    group: jenkins
+
+- name: Update LC_ALL to workaround python3 locale bug
+  lineinfile:
+    path: /etc/default/locale
+    regexp: "^LC_ALL"
+    line: "LC_ALL=C.UTF-8"
+
+- name: Install Jenkins plugins using password.
+  jenkins_plugin:
+    name: "{{ item }}"
+    jenkins_home: "{{ jenkins_home }}"
+    url_username: "{{ jenkins_admin_username }}"
+    url_password: "{{ jenkins_admin_password }}"
+    state: "{{ jenkins_plugins_state }}"
+    timeout: "{{ jenkins_plugin_timeout }}"
+    updates_expiration: "{{ jenkins_plugin_updates_expiration }}"
+    updates_url: "{{ jenkins_plugins_update_url }}"
+    validate_certs: "{{ jenkins_plugins_update_verify_certs }}"
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}\
+      {{ jenkins_url_prefix }}"
+    with_dependencies: "{{ jenkins_plugins_install_dependencies }}"
+  with_items: "{{ jenkins_default_plugins | union(jenkins_plugins) }}"
+  when: jenkins_admin_password | length > 0
+  notify:
+    - restart jenkins
+    - wait jenkins
+
+- name: Force Restart and wait handlers
+  meta: flush_handlers

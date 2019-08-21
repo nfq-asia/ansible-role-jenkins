@@ -1,0 +1,23 @@
+---
+- name: Copy over static configuration files
+  copy:
+    dest: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    owner: "{{ jenkins_process_user }}"
+    group: "{{ jenkins_process_group }}"
+    mode: 0400
+  with_items: "{{ jenkins_static_configs }}"
+  notify: restart jenkins
+
+- name: Configure location
+  jenkins_script:
+    script:
+      "{{ lookup('file', 'files/groovy-scripts/config-location.groovy') }}"
+    args:
+      jenkins_admin_email: "{{ jenkins_admin_email }}"
+      number_of_executors: "{{ number_of_executors }}"
+      node_mode: "{{ node_mode | upper }}"
+      node_labels: "{{ node_labels }}"
+      jenkins_url: "{{ jenkins_url }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
