@@ -27,7 +27,6 @@ jenkins_default_plugins:
   - github-branch-source
   - workflow-aggregator
   - slack
-  - ssh-agent
   - timestamper
   - icon-shim
   - matrix-auth
@@ -36,6 +35,10 @@ jenkins_default_plugins:
   - sectioned-view
   - job-dsl
   - workflow-job
+  - pipeline-aws
+  - workflow-cps
+  - configuration-as-code
+
 jenkins_plugins: []
 
 jenkins_plugins_state: present
