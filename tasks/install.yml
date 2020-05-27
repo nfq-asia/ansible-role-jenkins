@@ -7,7 +7,7 @@
       - apt-utils
       - apt-transport-https
       - gnupg
-      - openjdk-8-jdk-headless
+      - openjdk-11-jdk-headless
     state: present
 
 - name: Define jenkins_repo_url
