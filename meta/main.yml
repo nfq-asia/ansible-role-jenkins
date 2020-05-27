@@ -1,12 +1,12 @@
 ---
 galaxy_info:
   author:
-  description: 
-  company: 
+  description:
+  company:
   platforms:
     - name: Ubuntu
       versions:
         - 18.04 minmal
-  license: 
-  min_ansible_version: 1.2
+  license:
+  min_ansible_version: 2.7
   galaxy_tags: []
