@@ -6,7 +6,7 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - 18.04 minmal
+        - 20.04 LTS (Focal Fossa)
   license:
   min_ansible_version: 2.7
   galaxy_tags: []
