@@ -68,24 +68,17 @@
     enabled: true
 
 - name: Wait for Jenkins to start up before proceeding.
-  command: "curl -D - --silent --max-time 5 http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}/cli/"
-  args:
-    warn: false
-  register: result
+  ansible.builtin.command: "curl -D - --silent --max-time 5 http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}/cli/"
+  register: wait_result
   until: >
-    (result is defined and result.stdout_lines | join('') | regex_search("403 Forbidden"))
-    or (result is defined and result.stdout_lines | join('') | regex_search("200 OK"))
-    and not (result is defined and result.stdout_lines | join('') | regex_search("Please wait while"))
+    (wait_result.stdout is defined and wait_result.stdout | regex_search("403 Forbidden")) or 
+    (wait_result.stdout is defined and wait_result.stdout | regex_search("200 OK")) and
+    not wait_result.stdout | regex_search("Please wait while")
   retries: "2"
   delay: "{{ jenkins_connection_delay }}"
   changed_when: false
   check_mode: false
   ignore_errors: true
-  register: wait_result
-
-- debug:
-    var: wait_result
-
 
 - name: Check if jenkins_init_file exists.
   stat:
