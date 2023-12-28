@@ -76,9 +76,9 @@
     warn: false
   register: result
   until: >
-    (result.stdout.find("403 Forbidden") != -1)
-    or (result.stdout.find("200 OK") != -1)
-    and (result.stdout.find("Please wait while") == -1)
+    (result.stdout is defined and "403 Forbidden" in result.stdout)
+    or (result.stdout is defined and "200 OK" in result.stdout)
+    and (result.stdout is defined and "Please wait while" not in result.stdout)
   retries: "{{ jenkins_connection_retries }}"
   delay: "{{ jenkins_connection_delay }}"
   changed_when: false
