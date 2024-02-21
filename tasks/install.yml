@@ -26,7 +26,7 @@
   when: jenkins_pkg_url is not defined
 
 - name: Add Jenkins apt repository key.
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ jenkins_repo_key_url }}"
     state: present
 
